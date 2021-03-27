@@ -10,16 +10,23 @@ CREATE TABLE users(
 
 
 CREATE TABLE recipes(
-    id INT,
-    recipe_name VARCHAR(50) NOT NULL PRIMARY KEY,
+    recipe_id uuid  PRIMARY KEY,
+    recipe_name VARCHAR NOT NULL,
+    recipe_ingredients json NOT NULL,
+    recipe_instructions TEXT NOT NULL,
+    recipe_favorite BOOLEAN,
+    user_id uuid,
+    CONSTRAINT fk_user_id 
+        FOREIGN KEY(user_id) 
+            REFERENCES users(user_id) 
+);
 
-
-)
-
-CREATE TABLE ingredients(
-    id INT,
-    ingredient_name,
-    quantity,
-    
-
+CREATE TABLE lists(
+    list_id uuid PRIMARY KEY,
+    list_name VARCHAR(255) NOT NULL,
+    list_ingredients TEXT [] NOT NULL,
+    user_id uuid,
+    CONSTRAINT fk_user_id
+        FOREIGN KEY(user_id)
+            REFERENCES users(user_id)
 )
