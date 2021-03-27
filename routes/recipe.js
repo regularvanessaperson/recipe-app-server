@@ -52,7 +52,6 @@ router.get("/:id", authorization, async(req, res)=>{
 router.put("/edit/:id", authorization, async(req, res)=>{
     try{
         const recipeId = req.params.id
-        console.log(req.body)
         
         //need to change each value at req.body.(table_field)
         const recipe = await pool.query("UPDATE recipes SET recipe_name=$1, recipe_ingredients=$2, recipe_instructions=$3, recipe_favorite=$4 WHERE recipe_id=$5 RETURNING * ", [req.body.recipe_name, JSON.stringify(req.body.recipe_ingredients), req.body.recipe_instructions, req.body.recipe_favorite, recipeId
@@ -65,5 +64,34 @@ router.put("/edit/:id", authorization, async(req, res)=>{
     }
 })
 
+//retrive one recipe
+router.put("/favorite/:id", authorization, async(req, res)=>{
+    try{
+        const recipeId = req.params.id
+        
+        //need to change each value at req.body.(table_field)
+        const recipe = await pool.query("UPDATE recipes SET recipe_favorite=$1 WHERE recipe_id=$2 RETURNING * ", [ req.body.recipe_favorite, recipeId ])
+
+        res.json(recipe.rows[0].recipe_favorite);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when making changes to recipe")
+    }
+})
+
+//delete one recipe
+router.delete("/delete/:id", authorization, async(req, res)=>{
+    try{
+        const recipeId = req.params.id
+        const results = await pool.query("DELETE FROM recipes WHERE recipe_id =$1", [
+            recipeId
+        ])
+
+        res.status(204).json({status: "success"})
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when deleting this recipe")
+    }
+})
 
 module.exports = router
