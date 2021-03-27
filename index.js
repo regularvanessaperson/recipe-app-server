@@ -15,8 +15,12 @@ app.use("/auth", require("./routes/jwtAuth"));
 //dashboard route
 app.use("/dashboard", require("./routes/dashboard"));
 
-//recipe routes
-// app.use("recipe", require())
+// recipe routes
+app.use("/recipe", require("./routes/recipe"))
+
+//list routes
+// app.use("/list", require("./routes/list"))
+
 
 
 const port = process.env.PORT || 5000
