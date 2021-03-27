@@ -24,14 +24,27 @@ router.get("/", authorization, async(req, res)=>{
 router.post("/new",async(req,res)=> {
     try {
         const {name, ingredients, instructions, user_id} = req.body;
-        
+
         const newRecipe = await pool.query("INSERT INTO recipes (recipe_name, recipe_ingredients, recipe_instructions, user_id) VALUES ($1,$2,$3,$4) RETURNING *", [name, JSON.stringify(ingredients), instructions, user_id])
-        res.json(newRecipe)
+        res.json(newRecipe.rows[0])
     } catch (err) {
         console.error(err)
         res.status(500).json("Error when making new recipe")
     }
 })
 
+//retrive one recipe
+router.get("/:id", authorization, async(req, res)=>{
+    try{
+        const recipeId = req.params.id
+        const recipe = await pool.query("SELECT * FROM recipes WHERE recipe_id =$1", [
+            recipeId
+        ])
 
+        res.json(recipe.rows[0]);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when looking for recipe")
+    }
+})
 module.exports = router

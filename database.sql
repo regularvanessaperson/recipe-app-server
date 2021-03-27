@@ -15,7 +15,8 @@ CREATE TABLE recipes(
     recipe_name VARCHAR NOT NULL,
     recipe_ingredients json NOT NULL,
     recipe_instructions TEXT NOT NULL,
-    recipe_favorite BOOLEAN,
+    recipe_favorite BOOLEAN NOT NULL DEFAULT
+    false,
     user_id uuid,
     CONSTRAINT fk_user_id 
         FOREIGN KEY(user_id) 
