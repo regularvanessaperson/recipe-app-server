@@ -52,15 +52,16 @@ router.get("/:id", authorization, async(req, res)=>{
 router.put("/edit/:id", authorization, async(req, res)=>{
     try{
         const recipeId = req.params.id
-        const recipe = await pool.query("SELECT * FROM recipes WHERE recipe_id =$1", [
-            recipeId
-        ])
+        console.log(req.body)
         
+        //need to change each value at req.body.(table_field)
+        const recipe = await pool.query("UPDATE recipes SET recipe_name=$1, recipe_ingredients=$2, recipe_instructions=$3, recipe_favorite=$4 WHERE recipe_id=$5 RETURNING * ", [req.body.recipe_name, JSON.stringify(req.body.recipe_ingredients), req.body.recipe_instructions, req.body.recipe_favorite, recipeId
+        ])
 
         res.json(recipe.rows[0]);
     }catch( err) {
         console.error(err.message)
-        res.status(500).json("Error when looking for recipe")
+        res.status(500).json("Error when making changes to recipe")
     }
 })
 
