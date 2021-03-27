@@ -47,4 +47,22 @@ router.get("/:id", authorization, async(req, res)=>{
         res.status(500).json("Error when looking for recipe")
     }
 })
+
+//retrive one recipe
+router.put("/edit/:id", authorization, async(req, res)=>{
+    try{
+        const recipeId = req.params.id
+        const recipe = await pool.query("SELECT * FROM recipes WHERE recipe_id =$1", [
+            recipeId
+        ])
+        
+
+        res.json(recipe.rows[0]);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when looking for recipe")
+    }
+})
+
+
 module.exports = router
