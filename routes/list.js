@@ -49,6 +49,35 @@ router.get("/", authorization, async(req, res)=>{
     }
 })
 //update list
+
+router.put("/edit/:id", authorization, async(req, res)=>{
+    try{
+        const listId = req.params.id
+        
+        //need to change each value at req.body.(table_field)
+        const list = await pool.query("UPDATE lists SET list_name=$1, list_ingredients=$2 WHERE list_id=$3 RETURNING * ", [req.body.list_name, req.body.list_ingredients,listId
+        ])
+
+        res.json(list.rows[0]);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when making changes to list")
+    }
+})
+
 //delete list
 
+router.delete("/delete/:id", authorization, async(req, res)=>{
+    try{
+        const listId = req.params.id
+        const results = await pool.query("DELETE FROM lists WHERE list_id =$1", [
+            listId
+        ])
+
+        res.status(204).json({status: "success"})
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when deleting this list")
+    }
+})
 module.exports = router
