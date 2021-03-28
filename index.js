@@ -19,7 +19,7 @@ app.use("/dashboard", require("./routes/dashboard"));
 app.use("/recipe", require("./routes/recipe"))
 
 //list routes
-// app.use("/list", require("./routes/list"))
+app.use("/list", require("./routes/list"))
 
 
 
