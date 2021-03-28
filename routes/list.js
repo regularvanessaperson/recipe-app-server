@@ -20,6 +20,20 @@ router.post("/new",async(req,res)=> {
 })
 
 //retrieve one list
+router.get("/:id", authorization, async(req, res)=>{
+    try{
+        const listId = req.params.id
+        const list = await pool.query("SELECT * FROM lists WHERE list_id =$1", [
+            listId
+        ])
+
+        res.json(list.rows[0]);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when looking for recipe")
+    }
+})
+
 //retrieve all lists
 //update list
 //delete list
