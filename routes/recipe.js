@@ -48,7 +48,7 @@ router.get("/:id", authorization, async(req, res)=>{
     }
 })
 
-//retrive one recipe
+//edit one recipe
 router.put("/edit/:id", authorization, async(req, res)=>{
     try{
         const recipeId = req.params.id

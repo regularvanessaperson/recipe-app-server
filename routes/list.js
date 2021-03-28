@@ -15,7 +15,7 @@ router.post("/new",async(req,res)=> {
         res.json(newList.rows[0])
     } catch (err) {
         console.error(err)
-        res.status(500).json("Error when making new recipe")
+        res.status(500).json("Error when making new list")
     }
 })
 
@@ -30,11 +30,24 @@ router.get("/:id", authorization, async(req, res)=>{
         res.json(list.rows[0]);
     }catch( err) {
         console.error(err.message)
-        res.status(500).json("Error when looking for recipe")
+        res.status(500).json("Error when looking for list")
     }
 })
 
 //retrieve all lists
+router.get("/", authorization, async(req, res)=>{
+    try{
+        
+        const lists = await pool.query("SELECT * FROM lists WHERE user_id =$1", [
+            req.user
+        ])
+
+        res.json(lists.rows);
+    }catch( err) {
+        console.error(err.message)
+        res.status(500).json("Error when looking for all lists")
+    }
+})
 //update list
 //delete list
 
