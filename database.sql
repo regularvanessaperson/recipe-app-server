@@ -23,6 +23,7 @@ CREATE TABLE recipes(
             REFERENCES users(user_id) 
 );
 
+
 CREATE TABLE lists(
     list_id uuid PRIMARY KEY DEFAULT
     uuid_generate_v4(),
