@@ -8,7 +8,7 @@ router.get("/", authorization, async(req, res)=>{
         // res.json(req.user)
 
         //can return all or some of the info using user_id don't want to reveal password so only name returned below
-        const user = await pool.query("SELECT user_name FROM users WHERE user_id =$1", [
+        const user = await pool.query("SELECT user_id, user_name FROM users WHERE user_id =$1", [
             req.user
         ])
 
