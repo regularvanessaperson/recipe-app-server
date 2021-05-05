@@ -13,7 +13,7 @@ CREATE TABLE recipes(
     recipe_id uuid  PRIMARY KEY DEFAULT
     uuid_generate_v4(),
     recipe_name VARCHAR NOT NULL,
-    recipe_ingredients json NOT NULL,
+    recipe_ingredients TEXT [] NOT NULL,
     recipe_instructions TEXT NOT NULL,
     recipe_favorite BOOLEAN NOT NULL DEFAULT
     false,
@@ -34,3 +34,9 @@ CREATE TABLE lists(
         FOREIGN KEY(user_id)
             REFERENCES users(user_id)
 );
+
+-- CREATE TABLE ingredients(
+--     ingredient_id uuid PRIMARY KEY DEFAULT
+--     uuid_generate_v4(),
+
+-- )
